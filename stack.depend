@@ -1,0 +1,66 @@
+# depslib dependency file v1.0
+1456837330 source:/home/varenka/Desktop/stack/main.cpp
+	<iostream>
+	"game.h"
+	"mesh.h"
+	"shader.h"
+
+1456854937 source:/home/varenka/Desktop/stack/src/window.cpp
+	"window.h"
+
+1456833933 /home/varenka/Desktop/stack/include/window.h
+	<SDL2/SDL.h>
+	<GL/glew.h>
+	<string>
+	<iostream>
+
+1456833820 /home/varenka/Desktop/stack/include/game.h
+	"window.h"
+
+1456833922 source:/home/varenka/Desktop/stack/src/game.cpp
+	"game.h"
+
+1456835472 source:/home/varenka/Desktop/stack/src/vertex.cpp
+	"vertex.h"
+
+1456835362 /home/varenka/Desktop/stack/include/vertex.h
+	<SDL2/SDL.h>
+	<GL/glew.h>
+	<glm/glm.hpp>
+	<sstream>
+
+1456837535 source:/home/varenka/Desktop/stack/src/mesh.cpp
+	"mesh.h"
+
+1456837357 /home/varenka/Desktop/stack/include/mesh.h
+	<glm/glm.hpp>
+	<GL/glew.h>
+	<vector>
+	<iostream>
+	"vertex.h"
+	"shader.h"
+
+1456682333 source:/home/varenka/Desktop/stack/src/obj_loader.cpp
+	"obj_loader.h"
+	<fstream>
+	<iostream>
+	<algorithm>
+	<map>
+
+1456682358 /home/varenka/Desktop/stack/include/obj_loader.h
+	<glm/glm.hpp>
+	<vector>
+	<string>
+
+1456837221 source:/home/varenka/Desktop/stack/src/shader.cpp
+	"shader.h"
+
+1456837207 /home/varenka/Desktop/stack/include/shader.h
+	<SDL2/SDL.h>
+	<GL/glew.h>
+	<glm/glm.hpp>
+	<string>
+	<sstream>
+	<fstream>
+	<iostream>
+
