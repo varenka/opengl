@@ -13,21 +13,6 @@ void Mesh::Init(Vertex* verts, unsigned int numVerts, GLuint programID)
         cout << "pushed back m_vertices using " << verts[i].GetString() << endl;
     }
 
-    vector<glm::vec3> colors;
-    vector<glm::vec3> positions;
-
-    for(unsigned int i = 0; i < numVerts; i++)
-    {
-        colors.push_back(*verts[i].GetColor());
-        cout << "pushed back colors using " << io::getVectorString(verts[i].GetColor()) << endl;
-    }
-
-    for(unsigned int i = 0; i < numVerts; i++)
-    {
-        positions.push_back(*verts[i].GetPos());
-        cout << "pushed back positions using " << io::getVectorString(verts[i].GetPos()) << endl;
-    }
-
     ///create vbo
     glGenBuffers(1, &m_vbo);
 
@@ -39,24 +24,33 @@ void Mesh::Init(Vertex* verts, unsigned int numVerts, GLuint programID)
     vector<GLfloat> vertices;
     for(unsigned int i = 0; i < numVerts; i++)
     {
-        vertices.push_back(positions[i].x);
-        cout << "pushed back vertices using (" << positions[i].x;
-        vertices.push_back(positions[i].y);
-        cout << ", " << positions[i].y;
-        vertices.push_back(positions[i].z);
-        cout << ", " << positions[i].z << ")" << endl;
+        vertices.push_back(verts[i].GetPos()->x);
+        cout << "pushed back vertices using (" << verts[i].GetPos()->x;
+        vertices.push_back(verts[i].GetPos()->y);
+        cout << ", " << verts[i].GetPos()->y;
+        vertices.push_back(verts[i].GetPos()->z);
+        cout << ", " << verts[i].GetPos()->z << ")" << endl;
 
-        vertices.push_back(colors[i].x);
-        vertices.push_back(colors[i].y);
-        vertices.push_back(colors[i].z);
+        vertices.push_back(verts[i].GetColor()->x);
+        vertices.push_back(verts[i].GetColor()->y);
+        vertices.push_back(verts[i].GetColor()->z);
     }
-
+    GLfloat vertices2[vertices.size()];
+    for(unsigned int i = 0; i < vertices.size(); i++)
+        vertices2[i] = vertices[i];
     ///upload vertices
     /*cout << "Uploading final buffer: " << endl;
     cout << vertices[0];
     for(unsigned int i = 1; i < vertices.size(); i++)
         cout << ", " << vertices[i];*/
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+    /*const GLfloat vertices3[] = {
+        -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, // Top-left
+        0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 0.0f, // Top-right
+        //0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // Bottom-right
+        -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f  // Bottom-left
+    };*/
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), &vertices2[0], GL_STATIC_DRAW);
     ///bind m_posAttrib to position
     GLint m_posAttrib = glGetAttribLocation(programID, "position");
     ///enable the position attribute array

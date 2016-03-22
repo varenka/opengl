@@ -8,6 +8,8 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <vector>
+#include "vertex.h"
 
 using namespace std;
 
@@ -17,6 +19,7 @@ public:
     static string loadTextFile(const string& fileName);
     static bool exists(const string& fileName);
     static string getVectorString(glm::vec3* vec);
+    static string upToFirstSpace(string str);
 };
 
 class Shader
@@ -39,7 +42,7 @@ public:
         return m_colAttrib;
     }
 
-    static void CheckShaderError(GLuint id);
+    static void CheckShaderError(GLuint id, int type);
     virtual ~Shader();
 private:
     GLuint m_programID;

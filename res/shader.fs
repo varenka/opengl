@@ -9,5 +9,5 @@ out vec4 outColor;
 void main()
 {
 	//outColor = vec4(triangleColor, 1.0);
-	outColor = vec4(1.0, 1.0, 1.0, 1.0);
+	outColor = vec4(Color, 1.0);
 }

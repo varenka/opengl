@@ -5,6 +5,9 @@
 #include <GL/glew.h>
 #include <string>
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include "shader.h"
 
 using namespace std;
 
@@ -25,6 +28,8 @@ private:
     unsigned int m_height;
     SDL_GLContext m_glContext;
     SDL_Window* m_windowPtr;
+
+    vector<GLuint> m_elements;
 };
 
 #endif // WINDOW_H

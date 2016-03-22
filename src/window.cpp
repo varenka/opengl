@@ -7,7 +7,6 @@ Window::Window()
 
 void Window::Init(unsigned int width, unsigned int height, const string& title, bool fullScreen)
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
 
     ///set color mode to 32bps
     int colorSize = 8;
@@ -35,7 +34,8 @@ void Window::Update()
 {
     glClearColor(0.15f, 0.15f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    //glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     SDL_GL_SwapWindow(m_windowPtr);
 }
 

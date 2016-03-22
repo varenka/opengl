@@ -1,10 +1,12 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <sstream>
+#include <string>
 
 using namespace std;
 

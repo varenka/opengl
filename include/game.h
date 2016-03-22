@@ -3,20 +3,34 @@
 
 #include "window.h"
 
+enum levelSymbol
+{
+    GameObject,
+    Light,
+    MeshRenderer,
+    Invalid,
+};
+
 class Game
 {
 public:
     Game(unsigned int width, unsigned int height, const string& title, bool fullScreen);
 
-    void PollInput();
-    void Update();
     bool isClosed;
 
+    void PollInput();
+    void Update();
+    void LoadLevel(const string& fileName);
     void Quit();
+
+    const string GetCurrentLevel() { return m_currentLevel; }
+
+    levelSymbol stringToLevelSymbol(const string& str);
 
     virtual ~Game();
 private:
     Window m_window;
+    string m_currentLevel;
 };
 
 #endif // GAME_H

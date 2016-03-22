@@ -1,5 +1,18 @@
 #include "shader.h"
 
+void checkGlError(string recent)
+{
+    GLenum glError = glGetError();
+    if(glError == GL_NO_ERROR)
+    {
+        cout << "No errors after " << recent << endl;
+    }
+    else
+    {
+        cout << "Error " << glError << " after " << endl;
+    }
+}
+
 Shader::Shader()
 {
     //ctor
@@ -32,26 +45,34 @@ void Shader::Load(const string& fileName)
     ///get shader ids
     m_vertexID = glCreateShader(GL_VERTEX_SHADER);
     m_fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
+    cout << "Shader IDs are: " << m_vertexID << " for vertex shader and " << m_fragmentID << " for fragment shader." << endl;
 
     ///upload shader sources
     const GLchar* fragmentShaderChar = m_fragmentSource.c_str();
     const GLchar* vertexShaderChar = m_vertexSource.c_str();
+
+    cout << "Final shader sources are: " << endl;
+    cout << vertexShaderChar << endl;
+    cout << fragmentShaderChar << endl;
 
     glShaderSource(m_vertexID, 1, &vertexShaderChar, NULL);
     glShaderSource(m_fragmentID, 1, &fragmentShaderChar, NULL);
 
     ///compile vertex shader
     glCompileShader(m_vertexID);
-    CheckShaderError(m_vertexID);
+    CheckShaderError(m_vertexID, GL_COMPILE_STATUS);
 
     ///compile fragment shader
     glCompileShader(m_fragmentID);
-    CheckShaderError(m_fragmentID);
+    CheckShaderError(m_fragmentID, GL_COMPILE_STATUS);
+    checkGlError("compiling fragment and vertex shaders.");
 
     ///create final program
     m_programID = glCreateProgram();
+    checkGlError("creating shader program.");
+    cout << "Created program with id: " << m_programID << endl;
     glAttachShader(m_programID, m_vertexID);
-    glAttachShader(m_programID, m_vertexID);
+    glAttachShader(m_programID, m_fragmentID);
 
     ///this defines which buffers the
     ///fragment shader writes to, 0 by default
@@ -59,20 +80,22 @@ void Shader::Load(const string& fileName)
 
     ///linking shaders
     glLinkProgram(m_programID);
+    CheckShaderError(m_programID, GL_LINK_STATUS);
     ///start using shaderProgram
     glUseProgram(m_programID);
 
 }
 
-void Shader::CheckShaderError(GLuint id)
+void Shader::CheckShaderError(GLuint id, int type)
 {
     char compileLog[512];
+    bzero(&compileLog, sizeof(compileLog));
     GLint status;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+    glGetShaderiv(id, type, &status);
     if(status) {
         printf("Shader compiled successfully.\n");
     }else {
-        printf("Shader failed to compile.\n");
+        printf("Shader failed to compile. Status: %i\n", status);
         glGetShaderInfoLog(id, 512, NULL, compileLog);
         printf(compileLog);
     }
@@ -93,7 +116,7 @@ string io::loadTextFile(const string& fileName)
             output.append(line + "\n");
         }
     }
-
+    cout << output << endl;
     return output;
 }
 
@@ -114,4 +137,30 @@ string io::getVectorString(glm::vec3* vec)
     stringstream ss;
     ss << "(" << vec->x << ", " << vec->y << ", " << vec->z << ")";
     return ss.str();
+}
+
+string io::upToFirstSpace(string str)
+{
+    string ret = "";
+    vector<char> compare;
+    unsigned int spaceIndex;
+    for(int i = 0; i < str.length() - 1; i++)
+    {
+        if(str[i] == ' ') {
+            //push compare into ret
+            spaceIndex = i;
+            for(int f = 0; f < compare.size(); f++)
+            {
+                ret.append((const char*)compare[i]);
+            }
+            return ret;
+        }
+        else
+        {
+            /*cout << "Trying to append ret...." << endl;
+            ret.append((const char*)str[i]);
+            cout << "Appended ret." << endl;*/
+            compare.push_back(str[i]);
+        }
+    }
 }
