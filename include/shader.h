@@ -25,7 +25,7 @@ public:
 class Shader
 {
 public:
-    Shader();
+    Shader() {}
 
     void Load(const string& fileName);
     const string GetFileName();
@@ -43,7 +43,7 @@ public:
     }
 
     static void CheckShaderError(GLuint id, int type);
-    virtual ~Shader();
+    virtual ~Shader() {}
 private:
     GLuint m_programID;
     GLuint m_vertexID, m_fragmentID;

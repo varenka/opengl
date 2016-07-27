@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    Game game(800, 600, "test", false);
+    Game game(800, 600, "Hello World", false);
     Shader shader;
     shader.Load("./res/shader");
     Mesh mesh;
@@ -42,7 +42,7 @@ int main()
     errCode = glGetError();
     if (errCode != GL_NO_ERROR)
     {
-        cerr << errCode << endl;
+        cout << "GL error code: " << errCode << endl;
         ofstream ofs;
         ofs.open("glerror.txt");
         ofs << errCode << endl;
@@ -55,13 +55,25 @@ int main()
     else
     {
         cout << "Shader with program id " << shader.GetProgramID() << " has been created." << endl;
-        cout << "Error code: " << glIsProgram(shader.GetProgramID()) << endl;
     }
-    game.LoadLevel("./levels/test");
+
+    float counter = 0.0f;
+
     while(!game.isClosed)
     {
         game.PollInput();
+
+        game.GetWindow()->r = sinf(counter);
+        game.GetWindow()->g = cosf(counter);
+        game.GetWindow()->b = cosf(counter);
+
         game.Update();
+
+        counter += 0.01f;
+        if(counter >= 360.0f)
+        {
+            counter = 0.0f;
+        }
     }
     glDeleteShader(shader.GetProgramID());
     game.Quit();

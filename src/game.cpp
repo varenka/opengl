@@ -15,7 +15,7 @@ Game::~Game()
 
 levelSymbol Game::stringToLevelSymbol(const string& str)
 {
-    if(str == "GameObject") return GameObject;
+    if(str == "Entity") return Entity;
     if(str == "Light") return Light;
     if(str == "MeshRenderer") return MeshRenderer;
     //else
@@ -48,37 +48,47 @@ void Game::Update()
     m_window.Update();
 }
 
+void Game::ExecuteLine(const string& l)
+{
+    levelSymbol symbol = stringToLevelSymbol(l.substr(0, l.find_first_of(" ")));
+    switch(symbol)
+    {
+    case Entity:
+        cout << "Found entity." << endl;
+        break;
+    case Light:
+        cout << "Found light." << endl;
+        break;
+    case MeshRenderer:
+        cout << "Found MeshRenderer." << endl;
+        break;
+    case Invalid:
+        cout << "Error while executing line: " << l << endl;
+    default:
+        break;
+    }
+}
+
+//this is broken
 void Game::LoadLevel(const string& fileName)
 {
     ifstream if_stream(fileName.c_str());
 
     string line;
 
+    string levelSource;
+    if_stream >> levelSource;
+
     if(io::exists(fileName.c_str()))
     {
         while(if_stream.good())
         {
             getline(if_stream, line);
-            if(line[0] == '#')
-            {
-                //# is commented out, do nothing
-            }
-            else
-            {
-                switch(stringToLevelSymbol(io::upToFirstSpace(line)))
-                {
-                case GameObject:
-                    cout << "Found GameObject" << endl;
-                    break;
-                default:
-                    cout << "Error while loading " << m_currentLevel << ": Unrecognized symbol: " << line << endl;
-                }
-            }
+            levelSource.append(line + "\n");
+            ExecuteLine(line);
         }
     }
-    else
-    {
-        cout << "Could not open level: " << fileName << endl;
-    }
+    cout << "Loaded " << fileName << ":" << endl;
+    cout << levelSource << endl;
 
 }

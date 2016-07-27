@@ -5,7 +5,7 @@
 
 enum levelSymbol
 {
-    GameObject,
+    Entity,
     Light,
     MeshRenderer,
     Invalid,
@@ -21,8 +21,10 @@ public:
     void PollInput();
     void Update();
     void LoadLevel(const string& fileName);
+    void ExecuteLine(const string& l);
     void Quit();
 
+    Window* GetWindow() { return &m_window; }
     const string GetCurrentLevel() { return m_currentLevel; }
 
     levelSymbol stringToLevelSymbol(const string& str);

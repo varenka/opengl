@@ -1,10 +1,5 @@
 #include "window.h"
 
-Window::Window()
-{
-
-}
-
 void Window::Init(unsigned int width, unsigned int height, const string& title, bool fullScreen)
 {
 
@@ -32,16 +27,11 @@ void Window::Init(unsigned int width, unsigned int height, const string& title, 
 
 void Window::Update()
 {
-    glClearColor(0.15f, 0.15f, 0.3f, 1.0f);
+    glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT);
     //glDrawArrays(GL_TRIANGLES, 0, 3);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     SDL_GL_SwapWindow(m_windowPtr);
-}
-
-Window::~Window()
-{
-
 }
 
 void Window::Quit()

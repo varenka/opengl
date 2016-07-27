@@ -1,2 +1,2 @@
-GameObject test;
+GameObject (1.0, 1.0, 1.0) { MeshRenderer }
 #this is a comment

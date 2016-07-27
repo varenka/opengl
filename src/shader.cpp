@@ -13,16 +13,6 @@ void checkGlError(string recent)
     }
 }
 
-Shader::Shader()
-{
-    //ctor
-}
-
-Shader::~Shader()
-{
-    //dtor
-}
-
 const string Shader::GetFileName()
 {
     return m_fileName;
@@ -38,7 +28,7 @@ void Shader::Load(const string& fileName)
     m_vertexFileName = m_fileName + ".vs";
     m_fragmentFileName = m_fileName + ".fs";
 
-    ///load source files
+    ///load shader source files
     m_vertexSource = io::loadTextFile(m_vertexFileName);
     m_fragmentSource = io::loadTextFile(m_fragmentFileName);
 
@@ -47,13 +37,9 @@ void Shader::Load(const string& fileName)
     m_fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
     cout << "Shader IDs are: " << m_vertexID << " for vertex shader and " << m_fragmentID << " for fragment shader." << endl;
 
-    ///upload shader sources
+    ///upload shader sources to GPU
     const GLchar* fragmentShaderChar = m_fragmentSource.c_str();
     const GLchar* vertexShaderChar = m_vertexSource.c_str();
-
-    cout << "Final shader sources are: " << endl;
-    cout << vertexShaderChar << endl;
-    cout << fragmentShaderChar << endl;
 
     glShaderSource(m_vertexID, 1, &vertexShaderChar, NULL);
     glShaderSource(m_fragmentID, 1, &fragmentShaderChar, NULL);
@@ -76,7 +62,8 @@ void Shader::Load(const string& fileName)
 
     ///this defines which buffers the
     ///fragment shader writes to, 0 by default
-    glBindFragDataLocation(m_programID, 0, "outColor");
+    ///causes a segfault if enabled, because this isn't enabled in the shaders
+    //glBindFragDataLocation(m_programID, 0, "outColor");
 
     ///linking shaders
     glLinkProgram(m_programID);
@@ -92,7 +79,7 @@ void Shader::CheckShaderError(GLuint id, int type)
     bzero(&compileLog, sizeof(compileLog));
     GLint status;
     glGetShaderiv(id, type, &status);
-    if(status) {
+    if(status == 0 || status == 1) {
         printf("Shader compiled successfully.\n");
     }else {
         printf("Shader failed to compile. Status: %i\n", status);
@@ -116,7 +103,6 @@ string io::loadTextFile(const string& fileName)
             output.append(line + "\n");
         }
     }
-    cout << output << endl;
     return output;
 }
 

@@ -14,7 +14,10 @@ using namespace std;
 class Window
 {
 public:
-    Window();
+    Window() { r = 0.15f; g = 0.15f; b = 0.3f; a = 1.0f; }
+
+    ///background clear colors
+    float r, g, b, a;
 
     unsigned int* GetWidth() { return &m_width; }
     unsigned int* GetHeight() { return &m_height; }
@@ -22,7 +25,7 @@ public:
     void Init(unsigned int width, unsigned int height, const string& title, bool fullScreen);
     void Update();
     void Quit();
-    virtual ~Window();
+    virtual ~Window() {}
 private:
     unsigned int m_width;
     unsigned int m_height;

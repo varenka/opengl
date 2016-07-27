@@ -1,0 +1,11 @@
+this program is an experiment in procedural generation, to see if it is possible to reduce file sizes/memory usage
+by using equations that can be solved for different levels of detail at runtime/to LOD a mesh instead of high poly meshes.
+
+Potential implementaions:
+1.
+   -equation class which includes type of equation, vertex if conic or endpoints if linear, a function to return
+   vectors of vertices for a given level of detail. (this would work similar to ray casting, in that the function would
+   solve for y every x number of units)
+
+   -equation structures have to be coplanar if using one equation to define structures, use multiple equations
+   for each structure (one for each coordinate except x)?
